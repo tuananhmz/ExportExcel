@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: exportexcel-app
+    ports:
+      - "8081:8081"  # Chạy ứng dụng trên cổng 8081
+    environment:
+      - SPRING_APPLICATION_NAME=ExportExcel
+      - SERVER_PORT=8081
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/movie_system?autoReconnect=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+      - JAVA_OPTS=-Djava.awt.headless=true
+    depends_on:
+      - db  # Đảm bảo DB khởi động trước ứng dụng
+    networks:
+      - app-network
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root  # Mật khẩu của root
+      MYSQL_DATABASE: movie_system  # Tên database: movie_system
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+    volumes:
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql  # Tập tin script SQL khởi tạo DB
+    ports:
+      - "3306:3306"  # Expose cổng MySQL
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
