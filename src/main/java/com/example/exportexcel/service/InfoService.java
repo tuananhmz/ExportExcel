@@ -199,7 +199,7 @@ public class InfoService {
         // Add dropdowns in sheet 1 using the correct range in Sheet2
         XSSFDataValidationHelper validationHelper = new XSSFDataValidationHelper((XSSFSheet) sheet1);
         int startRow = parentHeaderRowIdx + 2; // Dòng đầu tiên
-        int endRow = parentHeaderRowIdx + infoList.size()+1; // Dòng cuối cùng
+        int endRow = parentHeaderRowIdx + (infoList.isEmpty() ? 2 : infoList.size() + 1);
 
         addDropdownToSheet(sheet1, validationHelper, "Dropdown_source!$A$4:$A$" + (employmentTypes.length + 3), // Employment Types
                 new CellRangeAddress(startRow, endRow, 2, 2));  // Adjust the range

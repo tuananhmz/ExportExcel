@@ -9,7 +9,12 @@ version = '0.0.1-SNAPSHOT'
 
 
 jar {
-	archiveFileName = 'exportexcel-application.jar'
+	archiveFileName = 'exportexcel-application.jar' // Tên file JAR
+	manifest {
+		attributes(
+				'Main-Class': 'com.example.exportexcel.ExportExcelApplication' // Đặt đúng main class
+		)
+	}
 }
 
 
